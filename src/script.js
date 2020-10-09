@@ -1,56 +1,56 @@
 function toReadable (number) {
-    numberStr = number.toString();
-    console.log(numberStr.length);
+    const numberArr = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 
+    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
 
-    const numderArr = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 
-    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'ninteen'];
-
-    const dozensArr = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninty']; // , 'hundred'
+    const dozensArr = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
     
+    let numberStr = number.toString();
     let numberPartToReturn = '';
+    let dozensToReturn = '';
 
-    // const dozenPartToReturn = dozensArr[((number / 10) ^ 0) - 2];
-
-    let dozenPartToReturn = function (x) {
-        if (x > 19) {
-            return dozensArr[((x / 10) ^ 0) - 2];
+    let getStrFromDozensArr = function (num) {
+        if (num > 19) {
+            return dozensArr[((num / 10) ^ 0) - 2];
         } else {
             return '';
         }        
     };
 
-    // let numberPartToReturn = function (num) {
-    //     if ((num % 10) !== 0) {
-    //         numberPart = numderArr[num % 10]; 
-    //     } else { return '';}
-    // }
+    let getLastNumber = function (num) {
+        if ((num % 10) !== 0) {
+            return numberPartToReturn = ` ${numberArr[num % 10]}`; 
+        }
+    }
 
-    // console.log(number - numberStr[0] * 100);
-
-    
+    let getDozens = function (num) {
+        dozensToReturn = ` ${dozensArr[((num / 10) ^ 0) - 2]}`;
+        return dozensToReturn;
+    }
+   
     if (number < 20) {      
-        return `${numderArr[number]}`;
+        return `${numberArr[number]}`;
 
     }  else if (number < 100) {  
+        getLastNumber(number);
+        return `${getStrFromDozensArr(number)}${numberPartToReturn}`;
 
-        if ((number % 10) !== 0) {
-            numberPartToReturn = numderArr[number % 10]; 
+        } else if (number < 1000) {  
+            let hundredToReturn = numberArr[(number / 100) ^ 0];
+            let dozenFromHundred = number - (numberStr[0] * 100);
+            
+            if (dozenFromHundred === 0) {              
+            } else if (dozenFromHundred < 20) {
+                    dozensToReturn = ` ${numberArr[dozenFromHundred]}`;
+                } else {
+                    getLastNumber(dozenFromHundred);
+                    getDozens(dozenFromHundred);
+                    }  
+                return `${hundredToReturn} hundred${dozensToReturn}${numberPartToReturn}`;
+               
+            
         }
-        return `${dozenPartToReturn(number)} ${numberPartToReturn}`;
-
-        } else if (number < 1000) {
-            const dozenFromHundred = number - (numberStr[0] * 100);
-            // console.log('dozenFromHundred: ', dozenFromHundred);
-
-            return `${numberPartToReturn} hundred ${dozenPartToReturn(dozenFromHundred)} ${numberPartToReturn}`;
-            }
-
-
-// for (let index = numberStr.length; index = 0; index--) {
-//     const element = array[index];
-    
 }
 
-console.log(toReadable(19), '- результат. Должно быть ninteen');
-console.log(toReadable(75), '- результат. Должно быть seventy five');
-console.log(toReadable(111), '- результат. Должно быть one hundred eleven');
+console.log('результат = ', toReadable(999), '\nДолжно быть = seven hundred nine');
+// console.log('результат = ', toReadable(660), '\nДолжно быть = six hundred sixty');
+// console.log('результат = ', toReadable(800), '\nДолжно быть = eight hundred');
